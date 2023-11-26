@@ -175,4 +175,5 @@ else:
     EMAIL_HOST_PASSWORD = str(os.getenv('PROD_EMAIL_HOST_PASSWORD'))
     EMAIL_PORT = str(os.getenv('PROD_EMAIL_PORT'))
     EMAIL_USE_TLS = str(os.getenv('PROD_EMAIL_TLS'))
-    
+
+AUTH_USER_MODEL = 'accounts.CustomUser'    
