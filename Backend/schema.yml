@@ -1,0 +1,1509 @@
+openapi: 3.0.3
+info:
+  title: Laboratory Management System
+  version: 1.0.0
+  description: A Thesis Project
+paths:
+  /api/v1/accounts/token/login/:
+    post:
+      operationId: api_v1_accounts_token_login_create
+      description: Use this endpoint to obtain user authentication token.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCreate'
+          description: ''
+  /api/v1/accounts/token/logout/:
+    post:
+      operationId: api_v1_accounts_token_logout_create
+      description: Use this endpoint to logout user (remove user authentication token).
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/accounts/users/:
+    get:
+      operationId: api_v1_accounts_users_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomUser'
+          description: ''
+    post:
+      operationId: api_v1_accounts_users_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistration'
+          description: ''
+  /api/v1/accounts/users/{id}/:
+    get:
+      operationId: api_v1_accounts_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    put:
+      operationId: api_v1_accounts_users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    patch:
+      operationId: api_v1_accounts_users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    delete:
+      operationId: api_v1_accounts_users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/accounts/users/activation/:
+    post:
+      operationId: api_v1_accounts_users_activation_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Activation'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activation'
+          description: ''
+  /api/v1/accounts/users/me/:
+    get:
+      operationId: api_v1_accounts_users_me_retrieve
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    put:
+      operationId: api_v1_accounts_users_me_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    patch:
+      operationId: api_v1_accounts_users_me_partial_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    delete:
+      operationId: api_v1_accounts_users_me_destroy
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/accounts/users/resend_activation/:
+    post:
+      operationId: api_v1_accounts_users_resend_activation_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/v1/accounts/users/reset_password/:
+    post:
+      operationId: api_v1_accounts_users_reset_password_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/v1/accounts/users/reset_password_confirm/:
+    post:
+      operationId: api_v1_accounts_users_reset_password_confirm_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetConfirm'
+          description: ''
+  /api/v1/accounts/users/reset_username/:
+    post:
+      operationId: api_v1_accounts_users_reset_username_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/v1/accounts/users/reset_username_confirm/:
+    post:
+      operationId: api_v1_accounts_users_reset_username_confirm_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameResetConfirm'
+          description: ''
+  /api/v1/accounts/users/set_password/:
+    post:
+      operationId: api_v1_accounts_users_set_password_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetPassword'
+          description: ''
+  /api/v1/accounts/users/set_username/:
+    post:
+      operationId: api_v1_accounts_users_set_username_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetUsername'
+          description: ''
+  /api/v1/equipments/equipment_instances/:
+    get:
+      operationId: api_v1_equipments_equipment_instances_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentInstance'
+          description: ''
+    post:
+      operationId: api_v1_equipments_equipment_instances_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentInstance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EquipmentInstance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EquipmentInstance'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentInstance'
+          description: ''
+  /api/v1/equipments/equipment_instances/{equipment_id}/logs/:
+    get:
+      operationId: api_v1_equipments_equipment_instances_logs_list_2
+      parameters:
+      - in: path
+        name: equipment_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentInstanceLog'
+          description: ''
+  /api/v1/equipments/equipment_instances/{id}/:
+    get:
+      operationId: api_v1_equipments_equipment_instances_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment instance.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentInstance'
+          description: ''
+    put:
+      operationId: api_v1_equipments_equipment_instances_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment instance.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentInstance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EquipmentInstance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EquipmentInstance'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentInstance'
+          description: ''
+    patch:
+      operationId: api_v1_equipments_equipment_instances_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment instance.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipmentInstance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipmentInstance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipmentInstance'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentInstance'
+          description: ''
+    delete:
+      operationId: api_v1_equipments_equipment_instances_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment instance.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/equipments/equipment_instances/latest:
+    get:
+      operationId: api_v1_equipments_equipment_instances_latest_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentInstance'
+          description: ''
+  /api/v1/equipments/equipment_instances/logs:
+    get:
+      operationId: api_v1_equipments_equipment_instances_logs_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentInstanceLogs'
+          description: ''
+  /api/v1/equipments/equipments/:
+    get:
+      operationId: api_v1_equipments_equipments_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Equipment'
+          description: ''
+    post:
+      operationId: api_v1_equipments_equipments_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Equipment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Equipment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Equipment'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+  /api/v1/equipments/equipments/{equipment_id}/logs/:
+    get:
+      operationId: api_v1_equipments_equipments_logs_list_2
+      parameters:
+      - in: path
+        name: equipment_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentLog'
+          description: ''
+  /api/v1/equipments/equipments/{id}/:
+    get:
+      operationId: api_v1_equipments_equipments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+    put:
+      operationId: api_v1_equipments_equipments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Equipment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Equipment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Equipment'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+    patch:
+      operationId: api_v1_equipments_equipments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipment'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+    delete:
+      operationId: api_v1_equipments_equipments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/equipments/equipments/latest:
+    get:
+      operationId: api_v1_equipments_equipments_latest_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Equipment'
+          description: ''
+  /api/v1/equipments/equipments/logs:
+    get:
+      operationId: api_v1_equipments_equipments_logs_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EquipmentLogs'
+          description: ''
+  /api/v1/transactions/:
+    get:
+      operationId: api_v1_transactions_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+          description: ''
+    post:
+      operationId: api_v1_transactions_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+  /api/v1/transactions/{id}/:
+    get:
+      operationId: api_v1_transactions_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this transaction.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+    put:
+      operationId: api_v1_transactions_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this transaction.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+    patch:
+      operationId: api_v1_transactions_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this transaction.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTransaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTransaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTransaction'
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: ''
+    delete:
+      operationId: api_v1_transactions_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this transaction.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Activation:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - token
+      - uid
+    CustomUser:
+      type: object
+      properties:
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        avatar:
+          type: string
+          format: uri
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+      required:
+      - avatar
+      - first_name
+      - last_name
+      - username
+    Equipment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_added
+      - description
+      - id
+      - last_updated
+      - last_updated_by
+      - name
+    EquipmentInstance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        equipment:
+          type: integer
+        status:
+          $ref: '#/components/schemas/StatusC78Enum'
+        room:
+          $ref: '#/components/schemas/RoomEnum'
+        remarks:
+          type: string
+          nullable: true
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_added
+      - equipment
+      - id
+      - last_updated
+      - last_updated_by
+      - room
+      - status
+    EquipmentInstanceLog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        equipment:
+          type: integer
+        status:
+          type: string
+        room:
+          $ref: '#/components/schemas/RoomEnum'
+        remarks:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        history:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+      required:
+      - date_added
+      - equipment
+      - history
+      - id
+      - last_updated
+      - last_updated_by
+      - remarks
+      - room
+      - status
+    EquipmentInstanceLogs:
+      type: object
+      properties:
+        history_id:
+          type: integer
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        equipment:
+          type: integer
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusC78Enum'
+          readOnly: true
+        room:
+          $ref: '#/components/schemas/RoomEnum'
+        remarks:
+          type: string
+          readOnly: true
+          nullable: true
+        history_date:
+          type: string
+          format: date-time
+          readOnly: true
+        history_user:
+          type: string
+          readOnly: true
+      required:
+      - equipment
+      - history_date
+      - history_id
+      - history_user
+      - id
+      - remarks
+      - room
+      - status
+    EquipmentLog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        history:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+      required:
+      - date_added
+      - description
+      - history
+      - id
+      - last_updated
+      - last_updated_by
+      - name
+    EquipmentLogs:
+      type: object
+      properties:
+        history_id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        history_date:
+          type: string
+          format: date-time
+          readOnly: true
+        history_user:
+          type: string
+          readOnly: true
+      required:
+      - description
+      - history_date
+      - history_id
+      - history_user
+      - name
+    PasswordResetConfirm:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+        new_password:
+          type: string
+      required:
+      - new_password
+      - token
+      - uid
+    PatchedCustomUser:
+      type: object
+      properties:
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        avatar:
+          type: string
+          format: uri
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+    PatchedEquipment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedEquipmentInstance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        equipment:
+          type: integer
+        status:
+          $ref: '#/components/schemas/StatusC78Enum'
+        room:
+          $ref: '#/components/schemas/RoomEnum'
+        remarks:
+          type: string
+          nullable: true
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        date_added:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        borrower:
+          type: integer
+          nullable: true
+        equipments:
+          type: array
+          items:
+            type: integer
+        status:
+          $ref: '#/components/schemas/TransactionStatusEnum'
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+    RoomEnum:
+      enum:
+      - ROOM1
+      - ROOM2
+      - ROOM3
+      type: string
+      description: |-
+        * `ROOM1` - ROOM1
+        * `ROOM2` - ROOM2
+        * `ROOM3` - ROOM3
+    SendEmailReset:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    SetPassword:
+      type: object
+      properties:
+        new_password:
+          type: string
+        current_password:
+          type: string
+      required:
+      - current_password
+      - new_password
+    SetUsername:
+      type: object
+      properties:
+        current_password:
+          type: string
+        new_username:
+          type: string
+          title: Username
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - current_password
+      - new_username
+    StatusC78Enum:
+      enum:
+      - Working
+      - Broken
+      - Borrowed
+      type: string
+      description: |-
+        * `Working` - Working
+        * `Broken` - Broken
+        * `Borrowed` - Borrowed
+    TokenCreate:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        borrower:
+          type: integer
+          nullable: true
+        equipments:
+          type: array
+          items:
+            type: integer
+        status:
+          $ref: '#/components/schemas/TransactionStatusEnum'
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - borrower
+      - equipments
+      - id
+      - timestamp
+    TransactionStatusEnum:
+      enum:
+      - APPROVED
+      - RETURNED
+      - REJECTED
+      - PENDING
+      type: string
+      description: |-
+        * `APPROVED` - Approved
+        * `RETURNED` - Returned
+        * `REJECTED` - Rejected
+        * `PENDING` - Pending
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+      required:
+      - email
+      - first_name
+      - last_name
+      - password
+      - username
+    UsernameResetConfirm:
+      type: object
+      properties:
+        new_username:
+          type: string
+          title: Username
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - new_username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
