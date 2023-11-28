@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r linux-requirements.txt
 RUN python Backend/manage.py makemigrations
 
 # Run custom migrate
-RUN python Backend/manage.py custom_migrate
+RUN python Backend/manage.py migrate
 
 # Generate DRF Spectacular Documentation
 RUN python Backend/manage.py spectacular --color --file Backend/schema.yml
