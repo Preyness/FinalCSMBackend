@@ -38,6 +38,8 @@ class CustomUser(AbstractUser):
     # is_admin inherited from base user class
     is_active = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to=_get_upload_to, null=True)
+    is_teacher = models.BooleanField(default=False)
+    is_technician = models.BooleanField(default=False)
 
     @property
     def full_name(self):
