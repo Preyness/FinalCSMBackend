@@ -29,3 +29,4 @@ RUN python Backend/manage.py spectacular --color --file Backend/schema.yml
 
 # Expose port 8000 for the web server
 EXPOSE 8000
+

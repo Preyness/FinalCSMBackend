@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  # Django App
+  django_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: csm_backend:latest
+    ports:
+      - "8092:8000"
+    environment:
+      - PYTHONBUFFERED=1
+    command:
+      [
+        "sh",
+        "-c",
+        "python Backend/manage.py spectacular --color --file Backend/schema.yml && python Backend/manage.py collectstatic --noinput && python Backend/manage.py makemigrations && python Backend/manage.py migrate && python Backend/manage.py runserver 0.0.0.0:8000",
+      ]
+    volumes:
+      - .:/code # For hotreloading
+
+volumes:
+  csm_backend:
