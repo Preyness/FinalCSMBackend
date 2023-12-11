@@ -18,7 +18,8 @@ class CustomUserSerializer(BaseUserSerializer):
 
     class Meta(BaseUserSerializer.Meta):
         model = CustomUser
-        fields = ('username', 'email', 'avatar', 'first_name', 'last_name','is_teacher','is_technician')
+        fields = ('username', 'email', 'avatar', 'first_name',
+                  'last_name', 'is_teacher', 'is_technician')
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -30,6 +31,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = CustomUser    # Use your custom user model here
         fields = ('username', 'email', 'password', 'avatar',
                   'first_name', 'last_name')
+        read_only_fields = ('is_teacher', 'is_technician')
 
     def validate(self, attrs):
         user = self.Meta.model(**attrs)
@@ -43,3 +45,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             )
 
         return super().validate(attrs)
+
+    def create(self, validated_data):
+        user = self.Meta.model(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+
+        return user
