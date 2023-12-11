@@ -37,9 +37,9 @@ class CustomUser(AbstractUser):
     # Password inherited from base user class
     # is_admin inherited from base user class
     is_active = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to=_get_upload_to, null=True)
-    is_teacher = models.BooleanField(default=False)
     is_technician = models.BooleanField(default=False)
+    is_teacher = models.BooleanField(default=False)
+    avatar = models.ImageField(upload_to=_get_upload_to, null=True)
 
     @property
     def full_name(self):
@@ -60,18 +60,50 @@ def create_superuser(sender, **kwargs):
         if not User.objects.filter(username=username).exists():
             # Create the superuser with is_active set to False
             superuser = User.objects.create_superuser(
-                username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+                username=username, email=email, password=password, first_name=first_name, last_name=last_name, is_technician=True)
 
             # Activate the superuser
             superuser.is_active = True
             print('Created admin account')
             superuser.save()
 
-        username = 'usertest1'
+        username = 'test-technician'
         email = os.getenv('DJANGO_ADMIN_EMAIL')
         password = os.getenv('DJANGO_ADMIN_PASSWORD')
         first_name = 'Test'
-        last_name = 'User'
+        last_name = 'Technician'
+
+        if not User.objects.filter(username=username).exists():
+            # Create the superuser with is_active set to False
+            user = User.objects.create_user(
+                username=username, email=email, password=password, first_name=first_name, last_name=last_name, is_technician=True)
+
+            # Activate the user
+            user.is_active = True
+            print('Created debug technician account')
+            user.save()
+
+        username = 'test-teacher'
+        email = os.getenv('DJANGO_ADMIN_EMAIL')
+        password = os.getenv('DJANGO_ADMIN_PASSWORD')
+        first_name = 'Test'
+        last_name = 'Teacher'
+
+        if not User.objects.filter(username=username).exists():
+            # Create the superuser with is_active set to False
+            user = User.objects.create_user(
+                username=username, email=email, password=password, first_name=first_name, last_name=last_name, is_teacher=True)
+
+            # Activate the user
+            user.is_active = True
+            print('Created debug teacher account')
+            user.save()
+
+        username = 'test-student'
+        email = os.getenv('DJANGO_ADMIN_EMAIL')
+        password = os.getenv('DJANGO_ADMIN_PASSWORD')
+        first_name = 'Test'
+        last_name = 'Student'
 
         if not User.objects.filter(username=username).exists():
             # Create the superuser with is_active set to False
@@ -80,5 +112,5 @@ def create_superuser(sender, **kwargs):
 
             # Activate the user
             user.is_active = True
-            print('Created debug user account')
+            print('Created debug student account')
             user.save()
