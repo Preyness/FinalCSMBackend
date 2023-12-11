@@ -1,14 +1,14 @@
-from rest_framework import viewsets
-from .models import BreakageReport
 from .serializers import BreakageReportSerializer
+from .models import BreakageReport
 from rest_framework.permissions import IsAuthenticated
-from config.settings import DEBUG
-
-# Create your views here.
+from rest_framework import viewsets
 
 
 class BreakageReportViewSet(viewsets.ModelViewSet):
-    if (not DEBUG):
-        permission_classes = [IsAuthenticated]
+    # Only allow GET
+    # Breakage Reports cannot be updated directly
+    # Changes to the associated Equipment Instances will resolve the Breakage Report itself
+    http_method_names = ['get']
+    permission_classes = [IsAuthenticated]
     serializer_class = BreakageReportSerializer
     queryset = BreakageReport.objects.all()
