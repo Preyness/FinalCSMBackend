@@ -3,7 +3,7 @@ from .models import Equipment, EquipmentInstance
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.types import OpenApiTypes
 from django.db.models import F
-from breakage.models import BreakageReport
+from breakages.models import BreakageReport
 # -- Equipment Serializers
 
 
@@ -21,7 +21,8 @@ class EquipmentSerializer(serializers.HyperlinkedModelSerializer):
         format="%m-%d-%Y %I:%M%p", read_only=True)
     last_updated_by = serializers.SerializerMethodField()
     name = serializers.CharField()
-    description = serializers.CharField()
+    description = serializers.CharField(
+        max_length=512, required=False, allow_blank=True)
 
     class Meta:
         model = Equipment
@@ -29,14 +30,15 @@ class EquipmentSerializer(serializers.HyperlinkedModelSerializer):
                   'last_updated', 'last_updated_by', 'date_added')
         read_only_fields = ('id', 'last_updated',
                             'last_updated_by', 'date_added')
+        extra_kwargs = {"description": {"required": False, "allow_null": True}}
 
-    def create(self, instance, validated_data):
+    def create(self, validated_data):
         user = self.context['request'].user
         # Do not allow users that are not technicians to create equipments
         if not user.is_technician:
             raise exceptions.ValidationError(
                 "Non-technician users cannot create equipments")
-        return super().create(instance, validated_data)
+        return super().create(validated_data)
 
     def update(self, instance, validated_data):
         user = self.context['request'].user
@@ -121,7 +123,8 @@ class EquipmentInstanceSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.CharField(
         source='equipment.category', read_only=True)
     status = serializers.CharField()
-    remarks = serializers.CharField(required=False)
+    remarks = serializers.CharField(
+        max_length=512, required=False, allow_blank=True)
     date_added = serializers.DateTimeField(
         format="%m-%d-%Y %I:%M%p", read_only=True)
     last_updated = serializers.DateTimeField(
@@ -130,13 +133,13 @@ class EquipmentInstanceSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.ChoiceField(
         choices=EquipmentInstance.EQUIPMENT_INSTANCE_STATUS_CHOICES)
 
-    def create(self, instance, validated_data):
+    def create(self, validated_data):
         user = self.context['request'].user
         # Do not allow users that are not technicians to create equipment instances
         if not user.is_technician:
             raise exceptions.ValidationError(
                 "Non-technician users cannot create equipments")
-        return super().create(instance, validated_data)
+        return super().create(validated_data)
 
     def update(self, instance, validated_data):
         user = self.context['request'].user
@@ -186,6 +189,7 @@ class EquipmentInstanceSerializer(serializers.HyperlinkedModelSerializer):
                   'last_updated', 'last_updated_by', 'date_added')
         read_only_fields = ('id', 'last_updated', 'equipment_name', 'category',
                             'last_updated_by', 'date_added', 'equipment_name')
+        extra_kwargs = {"remarks": {"required": False, "allow_null": True}}
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_history_user(self, obj):
