@@ -3,7 +3,7 @@ from .models import Equipment, EquipmentInstance
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.types import OpenApiTypes
 from django.db.models import F
-from breakages.models import BreakageReport
+from breakage.models import BreakageReport
 # -- Equipment Serializers
 
 
